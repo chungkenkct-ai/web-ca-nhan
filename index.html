@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChungKenkCt ৎ୭ | Profile</title>
+    <meta
+      name="description"
+      content="Trang cá nhân của ChungKenkCt - Chú chó xanh - Bio link, âm nhạc và mạng xã hội."
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/dog_avatar.png" />
+
+    <!-- FontAwesome 6 Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- VIDEO NỀN ĐẰNG SAU -->
+    <div class="video-bg-container">
+      <video id="bg-video" autoplay loop muted playsinline poster="assets/avatar.png">
+        <source src="assets/bg_video.mp4" type="video/mp4" />
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <!-- MÀN HÌNH CHÀO BẤM ĐỂ VÀO (CLICK ANYWHERE TO ENTER) -->
+    <div id="enter-overlay">
+      <div class="enter-content">
+        <div class="enter-icon">
+          <i class="fas fa-headphones-alt"></i>
+        </div>
+        <div class="enter-text">Click anywhere to enter</div>
+        <div class="enter-subtext">
+          [ Chạm bất kỳ đâu để bật nhạc & vào trang ]
+        </div>
+      </div>
+    </div>
+
+    <!-- NÚT BẬT/TẮT ÂM THANH NHANH Ở GÓC TRÊN BÊN TRÁI -->
+    <div class="top-controls">
+      <button
+        id="top-mute-btn"
+        class="icon-btn-round"
+        title="Bật / Tắt âm thanh"
+      >
+        <i id="top-mute-icon" class="fas fa-volume-up"></i>
+      </button>
+    </div>
+
+    <!-- KHỐI PROFILE CHÍNH Ở TRUNG TÂM -->
+    <main class="main-wrapper">
+      <!-- Avatar phát sáng viền neon -->
+      <div class="avatar-container">
+        <div class="avatar-glow-ring"></div>
+        <div class="avatar-border-ring"></div>
+        <img
+          id="profile-avatar"
+          class="avatar-img"
+          src="assets/avatar.png"
+          alt="Avatar"
+        />
+      </div>
+
+      <!-- Tên chính & Biệt danh -->
+      <h1 id="profile-name" class="profile-title">ChungKenkCt</h1>
+      <div id="profile-handle" class="profile-handle">Chú chó xanh</div>
+
+      <!-- Dòng chữ gõ tự động (Typewriter Quote) -->
+      <div id="profile-quote" class="profile-quote">
+        <span class="quote-icon">✨</span>
+        <span id="quote-text" class="quote-text">Chào mừng bạn đến với trang cá nhân của mình!</span>
+        <span class="quote-cursor">|</span>
+      </div>
+
+      <!-- Thẻ vị trí -->
+      <div class="location-badge">
+        <i class="fas fa-map-marker-alt"></i>
+        <span id="profile-location">Hải Dương</span>
+      </div>
+
+      <!-- Khung trạng thái phong cách Discord (Bấm để copy) -->
+      <div class="status-card" id="status-card-clickable" title="Bấm vào để sao chép tên Discord!">
+        <div class="status-avatar-wrapper">
+          <img
+            id="status-avatar"
+            class="status-avatar-img"
+            src="assets/dog_avatar.png"
+            alt="Status Avatar"
+          />
+          <div id="status-online-dot" class="status-online-dot"></div>
+        </div>
+        <div class="status-info">
+          <div class="status-username-row">
+            <span id="status-username">Bầu Trời Xanh</span>
+            <span id="status-badge" class="status-badge">🦴</span>
+          </div>
+          <div id="status-text" class="status-desc">🐾 Chú chó xanh thân yêu</div>
+        </div>
+        <div class="status-copy-icon">
+          <i class="far fa-copy"></i>
+        </div>
+      </div>
+
+      <!-- Hàng nút Mạng xã hội -->
+      <div id="socials-container" class="socials-row">
+        <!-- Được render động từ config.js -->
+      </div>
+
+      <!-- Lượt xem thật từ API đếm lượt truy cập -->
+      <div class="views-counter" id="views-counter-badge" title="Lượt khách truy cập thật">
+        <i class="fas fa-eye"></i>
+        <span id="profile-views">--</span>
+        <span class="views-label">lượt xem</span>
+      </div>
+    </main>
+
+    <!-- THÚ CƯNG ẢO MINI TƯƠNG TÁC Ở GÓC MÀN HÌNH -->
+    <div id="puppy-mascot" class="puppy-mascot" title="Chạm vào tớ nè! 🐾">
+      <div class="mascot-speech" id="mascot-speech">Gâu gâu! Chào bạn nha 🐾</div>
+      <div class="mascot-avatar-wrap">
+        <img src="assets/dog_avatar.png" alt="Puppy Mascot" class="mascot-img" />
+        <span class="mascot-heart-bubble">💖</span>
+      </div>
+    </div>
+
+    <!-- THÔNG BÁO COPY DISCORD TOAST -->
+    <div id="copy-toast" class="copy-toast">
+      <i class="fas fa-check-circle"></i>
+      <span>Đã sao chép Discord: <b>Bầu Trời Xanh</b> 🦴</span>
+    </div>
+
+    <!-- THANH NHẠC DƯỚI CÙNG (BOTTOM MUSIC PLAYER BAR) -->
+    <div class="bottom-player-container">
+      <div class="music-bar">
+        <!-- Đĩa xoay bài hát -->
+        <div id="player-disc-wrapper" class="player-disc">
+          <img
+            id="player-cover"
+            class="player-disc-cover"
+            src="assets/avatar.png"
+            alt="Music Cover"
+          />
+        </div>
+
+        <!-- Thông tin bài hát & Thanh tua thời gian -->
+        <div class="player-main-section">
+          <div class="track-meta">
+            <div class="track-texts">
+              <div id="player-title" class="track-title">
+                Thương Nhau Đến Thế (Jerk Drill)
+              </div>
+              <div id="player-artist" class="track-artist">
+                Gia Huy x Prod Young Tachi
+              </div>
+            </div>
+
+            <!-- Sóng nhạc nhảy theo điệu lofi -->
+            <div class="track-equalizer">
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+            </div>
+          </div>
+
+          <!-- Thanh chạy thời gian -->
+          <div class="progress-wrapper">
+            <span id="player-current-time" class="time-label">00:00</span>
+            <div
+              id="player-progress-container"
+              class="progress-track"
+              title="Tua nhạc"
+            >
+              <div id="player-progress" class="progress-fill"></div>
+            </div>
+            <span id="player-duration" class="time-label">00:00</span>
+          </div>
+        </div>
+
+        <!-- Cụm nút điều khiển nhạc -->
+        <div class="player-controls">
+          <button id="player-prev-btn" class="ctrl-btn" title="Phát lại từ đầu">
+            <i class="fas fa-backward-step"></i>
+          </button>
+
+          <button
+            id="player-play-btn"
+            class="ctrl-btn ctrl-btn-play"
+            title="Phát / Dừng"
+          >
+            <i id="player-play-icon" class="fas fa-play"></i>
+          </button>
+
+          <button id="player-next-btn" class="ctrl-btn" title="Phát lại">
+            <i class="fas fa-forward-step"></i>
+          </button>
+
+          <button
+            id="player-loop-btn"
+            class="ctrl-btn active"
+            title="Lặp lại bài hát"
+          >
+            <i class="fas fa-repeat"></i>
+          </button>
+
+          <!-- Chỉnh âm lượng -->
+          <div class="volume-group">
+            <i
+              id="player-volume-icon"
+              class="fas fa-volume-up"
+              style="color: #644f86; cursor: pointer; font-size: 0.9rem"
+            ></i>
+            <input
+              id="player-volume"
+              class="volume-slider"
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              value="0.7"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CÁC FILE JAVASCRIPT -->
+    <script src="config.js"></script>
+    <script src="player.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

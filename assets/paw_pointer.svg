@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 36 36" fill="none">
+  <defs>
+    <filter id="hoverGlow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.6"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#ff3377" flood-opacity="0.95"/>
+    </filter>
+    <linearGradient id="hoverPadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#ff5e97"/>
+      <stop offset="100%" stop-color="#ff2a6d"/>
+    </linearGradient>
+    <linearGradient id="hoverToeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#ff4081"/>
+    </linearGradient>
+  </defs>
+
+  <g filter="url(#hoverGlow)">
+    <!-- Main Pad -->
+    <path d="M 18 17 C 13.5 17 10 20 10.5 24.5 C 11 28 14 30 18 30 C 22 30 25 28 25.5 24.5 C 26 20 22.5 17 18 17 C 16.8 17 16 17.5 18 17.5 Z" fill="url(#hoverPadGrad)" stroke="#ffffff" stroke-width="1.3"/>
+    
+    <!-- Toe 1 -->
+    <ellipse cx="8" cy="16" rx="2.6" ry="3.8" transform="rotate(-32 8 16)" fill="url(#hoverToeGrad)" stroke="#ffffff" stroke-width="1.3"/>
+    
+    <!-- Toe 2 -->
+    <ellipse cx="13.5" cy="11.5" rx="3" ry="4.3" transform="rotate(-12 13.5 11.5)" fill="url(#hoverToeGrad)" stroke="#ffffff" stroke-width="1.3"/>
+    
+    <!-- Toe 3 -->
+    <ellipse cx="22.5" cy="11.5" rx="3" ry="4.3" transform="rotate(12 22.5 11.5)" fill="url(#hoverToeGrad)" stroke="#ffffff" stroke-width="1.3"/>
+    
+    <!-- Toe 4 -->
+    <ellipse cx="28" cy="16" rx="2.6" ry="3.8" transform="rotate(32 28 16)" fill="url(#hoverToeGrad)" stroke="#ffffff" stroke-width="1.3"/>
+  </g>
+</svg>
