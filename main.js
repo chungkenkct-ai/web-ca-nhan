@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cardUsername) cardUsername.textContent = config.statusCard.username;
     if (cardBadge) cardBadge.textContent = config.statusCard.badge;
     if (cardText) cardText.textContent = config.statusCard.statusText;
-    if (cardDot) cardDot.style.display = config.statusCard.isOnline ? "block" : "none";
+    if (cardDot)
+      cardDot.style.display = config.statusCard.isOnline ? "block" : "none";
   }
 
   // 3. Hiển thị danh sách mạng xã hội
@@ -171,7 +172,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Hạt bụi sao li ti
     if (Math.random() > 0.4) {
-      createSparkle(x + (Math.random() - 0.5) * 16, y + (Math.random() - 0.5) * 16);
+      createSparkle(
+        x + (Math.random() - 0.5) * 16,
+        y + (Math.random() - 0.5) * 16,
+      );
     }
 
     setTimeout(() => {
@@ -195,7 +199,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================================
   document.addEventListener("click", (e) => {
     // Không bắn hiệu ứng nếu bấm trúng các nút tương tác
-    if (e.target.closest("button") || e.target.closest("input") || e.target.closest("a")) {
+    if (
+      e.target.closest("button") ||
+      e.target.closest("input") ||
+      e.target.closest("a")
+    ) {
       return;
     }
 
@@ -249,7 +257,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // API đếm lượt truy cập thực tế miễn phí, hoạt động trơn tru trên GitHub Pages
-      const res = await fetch("https://countapi.mileshilliard.com/api/v1/hit/chungkenkct_bio_views");
+      const res = await fetch(
+        "https://countapi.mileshilliard.com/api/v1/hit/chungkenkct_bio_views",
+      );
       if (res.ok) {
         const data = await res.json();
         if (data && data.value) {
@@ -259,7 +269,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     } catch (err) {
-      console.warn("Could not reach visitor counter API, using local storage counter:", err);
+      console.warn(
+        "Could not reach visitor counter API, using local storage counter:",
+        err,
+      );
       // Fallback nếu ngoại tuyến: tăng nhẹ bộ đếm local
       let count = Number(cached || config.profile?.views || 89) + 1;
       localStorage.setItem("chungkenkct_bio_views", count);
@@ -312,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "🎧 Đang chill cùng bài hát: Thương Nhau Đến Thế",
       "✨ Chúc bạn có một ngày tràn đầy năng lượng & niềm vui!",
       "🐶 Hãy thử chạm vào chú cún con góc màn hình nha!",
-      "💖 Cảm ơn bạn vì đã ghé thăm ngôi nhà nhỏ của mình"
+      "💖 Cảm ơn bạn vì đã ghé thăm ngôi nhà nhỏ của mình",
     ];
 
     let qIndex = 0;
@@ -363,7 +376,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Chúc bạn một ngày tuyệt vời ✨",
       "Bấm vào tớ nữa đi gâu gâu! 🦴",
       "Gâu gâu! Cảm ơn bạn đã ghé thăm 💖",
-      "Tớ là bạn thân của ChungKenkCt nè 🐶"
+      "Tớ là bạn thân của ChungKenkCt nè 🐶",
     ];
 
     let dIndex = 0;
@@ -385,7 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initPuppyMascot();
 
   // ========================================================
-  // 12. BẤM VÀO DISCORD ĐỂ SAO CHÉP (COPY DISCORD TAG)
+  // 12. BẤM VÀO DISCORD ĐỂ SAO CHÉP (COPY DISCORD LINK)
   // ========================================================
   function initDiscordCopy() {
     const card = document.getElementById("status-card-clickable");
@@ -393,15 +406,48 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!card) return;
 
     card.addEventListener("click", () => {
-      const username = document.getElementById("status-username")?.textContent || "Bầu Trời Xanh";
-      navigator.clipboard.writeText(username).then(() => {
-        if (toast) {
-          toast.classList.add("show");
-          setTimeout(() => {
-            toast.classList.remove("show");
-          }, 2400);
+      const linkToCopy =
+        config.statusCard?.copyText ||
+        config.statusCard?.discordUrl ||
+        "https://discord.com/users/1537015363714424863";
+
+      // Hàm copy tương thích tốt trên cả HTTP/HTTPS/Local file
+      const performCopy = () => {
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(linkToCopy);
         }
-      }).catch(() => {});
+        return new Promise((resolve, reject) => {
+          const ta = document.createElement("textarea");
+          ta.value = linkToCopy;
+          ta.style.position = "fixed";
+          ta.style.left = "-999999px";
+          ta.style.top = "-999999px";
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          try {
+            const successful = document.execCommand("copy");
+            successful ? resolve() : reject(new Error("Copy failed"));
+          } catch (err) {
+            reject(err);
+          } finally {
+            ta.remove();
+          }
+        });
+      };
+
+      performCopy()
+        .then(() => {
+          if (toast) {
+            toast.classList.add("show");
+            setTimeout(() => {
+              toast.classList.remove("show");
+            }, 2500);
+          }
+        })
+        .catch((err) => {
+          console.error("Không thể sao chép:", err);
+        });
     });
   }
 

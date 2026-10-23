@@ -26,6 +26,8 @@ window.PROFILE_CONFIG = {
     badge: "🦴", // Icon huy hiệu
     statusText: "🐾 Chú chó xanh thân yêu", // Dòng trạng thái
     isOnline: true, // Chấm xanh trạng thái Online
+    discordUrl: "https://discord.com/users/1537015363714424863", // Link hồ sơ Discord
+    copyText: "https://discord.com/users/1537015363714424863", // Nội dung sao chép khi bấm vào thẻ
   },
 
   // Danh sách mạng xã hội
@@ -45,7 +47,7 @@ window.PROFILE_CONFIG = {
     {
       name: "Discord",
       icon: "fab fa-discord",
-      url: "https://discord.com",
+      url: "https://discord.com/users/1537015363714424863",
       color: "#5865f2",
     },
     {
