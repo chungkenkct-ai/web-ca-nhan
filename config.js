@@ -35,13 +35,13 @@ window.PROFILE_CONFIG = {
     {
       name: "Facebook",
       icon: "fab fa-facebook-f",
-      url: "https://facebook.com",
+      url: "https://www.facebook.com/NguyenVanChung1906",
       color: "#1877f2",
     },
     {
       name: "Instagram",
       icon: "fab fa-instagram",
-      url: "https://instagram.com",
+      url: "https://www.instagram.com/nguyenvanchung1906",
       color: "#e4405f",
     },
     {
@@ -53,13 +53,13 @@ window.PROFILE_CONFIG = {
     {
       name: "TikTok",
       icon: "fab fa-tiktok",
-      url: "https://tiktok.com",
+      url: "https://www.tiktok.com/@nguyenvanchung1906?_r=1&_t=ZS-9Amd7ebOQzA",
       color: "#00f2fe",
     },
     {
       name: "Spotify",
       icon: "fab fa-spotify",
-      url: "https://spotify.com",
+      url: "https://open.spotify.com/user/123456789",
       color: "#1ed760",
     },
   ],
@@ -72,4 +72,3 @@ window.PROFILE_CONFIG = {
     cover: "assets/avatar.png", // Ảnh đĩa nhạc xoay
   },
 };
-
