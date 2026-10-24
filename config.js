@@ -33,18 +33,6 @@ window.PROFILE_CONFIG = {
   // Danh sách mạng xã hội
   socials: [
     {
-      name: "Facebook",
-      icon: "fab fa-facebook-f",
-      url: "https://www.facebook.com/NguyenVanChung1906",
-      color: "#1877f2",
-    },
-    {
-      name: "Instagram",
-      icon: "fab fa-instagram",
-      url: "https://www.instagram.com/nguyenvanchung1906",
-      color: "#e4405f",
-    },
-    {
       name: "Discord",
       icon: "fab fa-discord",
       url: "https://discord.com/users/1537015363714424863",
@@ -64,6 +52,7 @@ window.PROFILE_CONFIG = {
     },
   ],
 
+
   // Cấu hình bài hát cho thanh phát nhạc phía dưới (Chọn bản 320kbps chất lượng cao nhất)
   music: {
     title: "Thương Nhau Đến Thế (Jerk Drill)", // Tên bài hát
@@ -71,4 +60,21 @@ window.PROFILE_CONFIG = {
     src: "assets/thuong_nhau_den_the_320k.mp3", // File nhạc MP3 320kbps
     cover: "assets/avatar.png", // Ảnh đĩa nhạc xoay
   },
+
+  // ========================================================
+  // BÀI HÁT CÁ NHÂN (tự ghi âm) - Thay tên file vào đây!
+  // Để file nhạc vào thư mục: assets/bai hat ca nhan/
+  // ========================================================
+  personalSongs: [
+    { title: "Bài hát 1",  file: "bai_hat_1.mp3" },
+    { title: "Bài hát 2",  file: "bai_hat_2.mp3" },
+    { title: "Bài hát 3",  file: "bai_hat_3.mp3" },
+    { title: "Bài hát 4",  file: "bai_hat_4.mp3" },
+    { title: "Bài hát 5",  file: "bai_hat_5.mp3" },
+    { title: "Bài hát 6",  file: "bai_hat_6.mp3" },
+    { title: "Bài hát 7",  file: "bai_hat_7.mp3" },
+    { title: "Bài hát 8",  file: "bai_hat_8.mp3" },
+    { title: "Bài hát 9",  file: "bai_hat_9.mp3" },
+    { title: "Bài hát 10", file: "bai_hat_10.mp3" },
+  ],
 };
