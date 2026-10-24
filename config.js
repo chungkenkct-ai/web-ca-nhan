@@ -19,6 +19,15 @@ window.PROFILE_CONFIG = {
     poster: "assets/avatar.png", // Ảnh hiển thị khi chưa load xong video
   },
 
+  // Thời tiết hiển thị cạnh vị trí + đổi không khí trang (mưa / sao trời)
+  // Dùng Open-Meteo: miễn phí, không cần API key
+  weather: {
+    enabled: true,
+    lat: 20.9373, // Toạ độ Hải Dương
+    lon: 106.3145,
+    timezone: "Asia/Ho_Chi_Minh",
+  },
+
   // Trạng thái mini card (phong cách Discord / Bio card)
   statusCard: {
     avatar: "assets/dog_avatar.png", // Ảnh đại diện Discord: Chú chó con đáng yêu đeo tai nghe AI

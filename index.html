@@ -20,6 +20,8 @@
 
     <!-- CSS Stylesheet -->
     <link rel="stylesheet" href="style.css" />
+    <!-- Hiệu ứng nâng cao: visualizer, theme thời tiết, mini-game -->
+    <link rel="stylesheet" href="extras.css" />
   </head>
   <body>
     <!-- VIDEO NỀN ĐẰNG SAU -->
@@ -29,6 +31,9 @@
       </video>
       <div class="video-overlay"></div>
     </div>
+
+    <!-- LỚP HIỆU ỨNG THỜI TIẾT: MƯA / SAO TRỜI (tự bật theo giờ & thời tiết) -->
+    <canvas id="weather-canvas" aria-hidden="true"></canvas>
 
     <!-- MÀN HÌNH CHÀO BẤM ĐỂ VÀO (CLICK ANYWHERE TO ENTER) -->
     <div id="enter-overlay">
@@ -51,6 +56,16 @@
         title="Bật / Tắt âm thanh"
       >
         <i id="top-mute-icon" class="fas fa-volume-up"></i>
+      </button>
+
+      <!-- Nút mở mini-game hứng xương -->
+      <button
+        id="game-btn"
+        class="icon-btn-round game-btn"
+        title="Chơi mini-game hứng xương"
+        aria-label="Chơi mini-game hứng xương"
+      >
+        <i class="fas fa-bone"></i>
       </button>
     </div>
 
@@ -84,6 +99,7 @@
 
       <!-- Avatar phát sáng viền neon -->
       <div class="avatar-container">
+        <canvas id="avatar-viz" class="avatar-viz" aria-hidden="true"></canvas>
         <div class="avatar-glow-ring"></div>
         <div class="avatar-border-ring"></div>
         <img
@@ -109,6 +125,7 @@
       <div class="location-badge">
         <i class="fas fa-map-marker-alt"></i>
         <span id="profile-location">Hải Dương</span>
+        <span id="weather-text" class="weather-text"></span>
       </div>
 
       <!-- Khung trạng thái phong cách Discord (Bấm để copy link Discord) -->
@@ -257,9 +274,42 @@
       </div>
     </div>
 
+    <!-- MINI-GAME HỨNG XƯƠNG -->
+    <div id="bone-game" class="bone-game" hidden>
+      <div
+        class="bone-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mini-game hứng xương"
+      >
+        <div class="bone-head">
+          <span class="bone-title">🦴 Hứng Xương</span>
+          <button id="bg-close" class="bone-close" title="Đóng (Esc)" aria-label="Đóng">✕</button>
+        </div>
+
+        <div class="bone-hud">
+          <span>Điểm <b id="bg-score">0</b></span>
+          <span>Kỷ lục <b id="bg-best">0</b></span>
+          <span id="bg-lives" class="bone-lives" aria-label="Mạng còn lại">❤️❤️❤️</span>
+        </div>
+
+        <div class="bone-stage" id="bg-stage">
+          <canvas id="bg-canvas"></canvas>
+          <div id="bg-veil" class="bone-veil">
+            <div class="bone-veil-inner">
+              <p id="bg-veil-title">Hứng xương rơi nào! 🐶</p>
+              <p id="bg-veil-sub">Di chuột (hoặc kéo tay) để hứng. Bỏ lỡ 3 lần là thua.</p>
+              <button id="bg-play" class="bone-btn">Chơi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- CÁC FILE JAVASCRIPT -->
     <script src="config.js"></script>
     <script src="player.js"></script>
     <script src="main.js"></script>
+    <script src="extras.js"></script>
   </body>
 </html>

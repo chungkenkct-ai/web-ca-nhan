@@ -1,0 +1,384 @@
+/* ========================================================
+   EXTRAS.CSS — CÁC HIỆU ỨNG NÂNG CAO
+   1. Visualizer thật quanh avatar
+   2. Theme theo giờ + thời tiết
+   3. Tilt 3D cho thẻ profile
+   4. Chó con chạy theo con trỏ
+   5. Mini-game hứng xương
+   ======================================================== */
+
+[hidden] {
+  display: none !important;
+}
+
+body.game-open {
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------
+   1. VISUALIZER QUANH AVATAR
+   -------------------------------------------------------- */
+.avatar-viz {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 240px;
+  height: 240px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1; /* nằm trên vòng glow, dưới ảnh avatar (z-index: 2) */
+  opacity: 0.95;
+  transition: opacity 0.4s ease;
+}
+
+/* --------------------------------------------------------
+   2. THEME THEO GIỜ + THỜI TIẾT
+   -------------------------------------------------------- */
+#weather-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+
+.weather-text {
+  color: #a9d8ff;
+  font-weight: 600;
+  white-space: nowrap;
+  font-size: 0.8rem;
+}
+
+/* Ban đêm: tối và lạnh hơn */
+html[data-time="night"] #bg-video {
+  filter: brightness(0.5) contrast(1.12) saturate(0.85);
+}
+html[data-time="night"] .video-overlay {
+  background:
+    radial-gradient(ellipse at center, rgba(6, 10, 26, 0.32) 0%, rgba(4, 7, 18, 0.72) 70%, rgba(2, 4, 10, 0.94) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.12) 45%, rgba(4, 6, 16, 0.9) 100%);
+}
+html[data-time="night"] .status-card,
+html[data-time="night"] .social-btn {
+  border-color: rgba(120, 160, 255, 0.28);
+}
+
+/* Buổi sáng: ấm và trong hơn */
+html[data-time="morning"] .video-overlay {
+  background:
+    radial-gradient(ellipse at center, rgba(40, 25, 15, 0.16) 0%, rgba(20, 10, 15, 0.55) 70%, rgba(8, 3, 12, 0.88) 100%),
+    linear-gradient(to bottom, rgba(20, 10, 0, 0.25) 0%, rgba(0, 0, 0, 0.05) 45%, rgba(12, 4, 10, 0.82) 100%);
+}
+
+/* Trời mưa / dông: tông xanh lạnh */
+html[data-weather="rain"] #bg-video,
+html[data-weather="storm"] #bg-video {
+  filter: brightness(0.58) contrast(1.1) saturate(0.72) hue-rotate(-6deg);
+}
+html[data-weather="rain"] .video-overlay,
+html[data-weather="storm"] .video-overlay {
+  background:
+    radial-gradient(ellipse at center, rgba(10, 22, 40, 0.35) 0%, rgba(7, 14, 26, 0.72) 70%, rgba(3, 7, 14, 0.94) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.1) 45%, rgba(4, 8, 18, 0.88) 100%);
+}
+html[data-weather="rain"] .location-badge {
+  border-color: rgba(129, 194, 255, 0.5);
+  color: #a9d8ff;
+}
+
+/* --------------------------------------------------------
+   3. TILT 3D CHO THẺ PROFILE
+   -------------------------------------------------------- */
+.status-card {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* Vệt sáng chạy theo con trỏ trên mặt thẻ */
+.status-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.16),
+    rgba(255, 255, 255, 0.04) 38%,
+    transparent 62%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+.status-card:hover::after {
+  opacity: 1;
+}
+
+.avatar-container {
+  will-change: transform;
+}
+
+/* --------------------------------------------------------
+   4. CHÓ CON CHẠY THEO CON TRỎ
+   -------------------------------------------------------- */
+.puppy-mascot.chasing-mode {
+  left: 0;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  animation: none;
+  transition: none;
+  will-change: transform;
+  z-index: 900;
+}
+
+.puppy-mascot.chasing-mode .mascot-speech {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.68rem;
+  padding: 4px 10px;
+  border-radius: 12px 12px 2px 12px;
+}
+
+/* Lật hướng phải tức thời, nếu không sẽ bị "dẹt" giữa transition */
+.puppy-mascot.chasing-mode .mascot-avatar-wrap {
+  transition: none;
+}
+
+.puppy-mascot.chasing-mode:hover {
+  transform: none;
+}
+
+/* Chỉ phần avatar nhận click, bong bóng thoại không chắn nút bên dưới */
+.puppy-mascot.chasing-mode {
+  pointer-events: none;
+}
+.puppy-mascot.chasing-mode .mascot-avatar-wrap {
+  pointer-events: auto;
+}
+
+.puppy-mascot.sleeping .mascot-img {
+  filter: brightness(0.78) saturate(0.7);
+}
+.puppy-mascot.sleeping .mascot-heart-bubble {
+  animation: none;
+  opacity: 0.4;
+}
+
+/* --------------------------------------------------------
+   5. MINI-GAME HỨNG XƯƠNG
+   -------------------------------------------------------- */
+.top-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.game-btn i {
+  color: #ffd166;
+  filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.6));
+}
+
+.bone-game {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(6, 3, 10, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.bone-panel {
+  width: min(680px, 94vw);
+  max-height: 94vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 18px 16px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 51, 119, 0.38);
+  background: linear-gradient(160deg, rgba(28, 15, 42, 0.98), rgba(11, 5, 18, 0.98));
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.72),
+    0 0 60px rgba(255, 51, 119, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: bonePanelIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes bonePanelIn {
+  from { opacity: 0; transform: scale(0.94) translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.bone-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bone-title {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.4px;
+  color: #fff;
+  text-shadow: 0 0 14px rgba(255, 209, 102, 0.45);
+}
+
+.bone-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.bone-close:hover {
+  background: rgba(255, 82, 82, 0.25);
+  border-color: rgba(255, 82, 82, 0.6);
+}
+
+.bone-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+.bone-hud b {
+  color: #ffd166;
+  font-size: 1rem;
+}
+.bone-lives {
+  letter-spacing: 2px;
+  font-size: 0.95rem;
+}
+
+.bone-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(92, 225, 230, 0.22);
+  background: radial-gradient(circle at 50% 0%, rgba(255, 51, 119, 0.14), rgba(8, 4, 14, 0.92));
+  touch-action: none;
+}
+
+#bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.bone-veil {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  background: rgba(7, 4, 13, 0.78);
+  backdrop-filter: blur(3px);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.bone-veil-inner p {
+  margin: 0 0 10px;
+  color: #fff;
+}
+#bg-veil-title {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  text-shadow: 0 0 16px rgba(255, 51, 119, 0.55);
+}
+#bg-veil-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  max-width: 320px;
+  margin-inline: auto;
+}
+
+.bone-btn {
+  margin-top: 8px;
+  padding: 10px 34px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff3377, #ff8a5c);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(255, 51, 119, 0.4);
+  transition: var(--transition);
+}
+.bone-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 14px 32px rgba(255, 51, 119, 0.55);
+}
+.bone-btn:active {
+  transform: scale(0.97);
+}
+
+/* Trạng thái thua */
+.bone-veil.game-over #bg-veil-title {
+  color: #ff7a7a;
+  text-shadow: 0 0 18px rgba(255, 82, 82, 0.6);
+}
+
+/* --------------------------------------------------------
+   6. PANEL BÀI HÁT CÁ NHÂN
+   -------------------------------------------------------- */
+.psongs-empty {
+  padding: 18px 10px;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+.psongs-empty span {
+  font-size: 0.7rem;
+  opacity: 0.75;
+}
+
+@media (max-width: 640px) {
+  .bone-panel {
+    padding: 14px;
+    border-radius: 20px;
+  }
+  .bone-stage {
+    aspect-ratio: 4 / 3;
+  }
+  .bone-hud {
+    font-size: 0.75rem;
+  }
+}
+
+/* Tôn trọng người dùng tắt hiệu ứng chuyển động */
+@media (prefers-reduced-motion: reduce) {
+  .bone-panel {
+    animation: none;
+  }
+  .avatar-viz {
+    display: none;
+  }
+}

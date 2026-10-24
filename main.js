@@ -1,4 +1,4 @@
-﻿// ========================================================
+// ========================================================
 // LOGIC CHÍNH: KHỞI TẠO DỮ LIỆU & HIỆU ỨNG TƯƠNG TÁC
 // ========================================================
 
@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 5. Khởi tạo Trình phát nhạc
   const player = new window.MusicPlayer();
+  window.appPlayer = player; // để phần Bài Hát Cá Nhân đổi bài được
 
   // 6. Màn hình "Click anywhere to enter"
   const enterOverlay = document.getElementById("enter-overlay");
@@ -202,7 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       e.target.closest("button") ||
       e.target.closest("input") ||
-      e.target.closest("a")
+      e.target.closest("a") ||
+      e.target.closest("#bone-game")
     ) {
       return;
     }

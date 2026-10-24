@@ -10,6 +10,11 @@ class MusicPlayer {
     this.isMuted = false;
     this.isLoop = true;
 
+    // Web Audio: dùng để lấy dữ liệu tần số thật cho visualizer
+    this.audioCtx = null;
+    this.sourceNode = null;
+    this.analyser = null;
+
     // Elements
     this.playBtn = document.getElementById("player-play-btn");
     this.playIcon = document.getElementById("player-play-icon");
@@ -132,6 +137,11 @@ class MusicPlayer {
         this.pause();
       }
     });
+
+    // Báo ra ngoài khi không tải được file (vd: file nhạc bị thiếu)
+    this.audio.addEventListener("error", () => {
+      window.dispatchEvent(new CustomEvent("music-error", { detail: { src: this.audio.src } }));
+    });
   }
 
   togglePlay() {
@@ -142,7 +152,60 @@ class MusicPlayer {
     }
   }
 
+  /**
+   * Nối audio vào Web Audio API để lấy phổ tần số thật.
+   * Phải gọi trong một user gesture (click) nếu không AudioContext sẽ bị treo.
+   */
+  ensureAnalyser() {
+    if (this.analyser || this.audioCtx) return;
+
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+
+    try {
+      this.audioCtx = new AudioCtx();
+      this.sourceNode = this.audioCtx.createMediaElementSource(this.audio);
+      this.analyser = this.audioCtx.createAnalyser();
+      this.analyser.fftSize = 128;
+      this.analyser.smoothingTimeConstant = 0.82;
+      this.sourceNode.connect(this.analyser);
+      this.analyser.connect(this.audioCtx.destination);
+
+      // Cho các hiệu ứng khác (visualizer) dùng chung
+      window.MUSIC_ANALYSER = this.analyser;
+      window.dispatchEvent(new CustomEvent("music-analyser-ready"));
+    } catch (err) {
+      // Trình duyệt chặn (vd: file://) -> vẫn phát nhạc bình thường, chỉ mất visualizer
+      console.warn("Không tạo được analyser, visualizer sẽ dùng chế độ chờ:", err);
+      this.analyser = null;
+    }
+  }
+
+  /**
+   * Đổi sang bài khác (dùng cho danh sách Bài Hát Cá Nhân).
+   * track = { title, artist, src, cover }
+   */
+  loadTrack(track) {
+    if (!track || !track.src) return;
+
+    this.audio.src = track.src;
+    this.audio.load();
+
+    if (this.titleEl) this.titleEl.textContent = track.title || "Bài hát";
+    if (this.artistEl) this.artistEl.textContent = track.artist || "Bài hát cá nhân";
+    if (this.coverEl && track.cover) this.coverEl.src = track.cover;
+    if (this.currentTimeEl) this.currentTimeEl.textContent = "00:00";
+    if (this.durationEl) this.durationEl.textContent = "00:00";
+    if (this.progressBar) this.progressBar.style.width = "0%";
+
+    this.play();
+  }
+
   play() {
+    this.ensureAnalyser();
+    if (this.audioCtx && this.audioCtx.state === "suspended") {
+      this.audioCtx.resume().catch(() => {});
+    }
     this.audio.play().then(() => {
       this.isPlaying = true;
       this.updatePlayStateUI(true);
@@ -220,9 +283,22 @@ class MusicPlayer {
   }
 
   setupVisualizer() {
-    // Sóng âm giả lập nhảy mượt mà khi phát nhạc
+    // Sóng nhạc: ưu tiên dữ liệu tần số thật, chưa có thì giả lập cho mượt
+    let freqData = null;
     const animateVisualizer = () => {
-      if (this.isPlaying && !this.isMuted) {
+      const analyser = window.MUSIC_ANALYSER;
+      if (this.isPlaying && !this.isMuted && analyser) {
+        if (!freqData || freqData.length !== analyser.frequencyBinCount) {
+          freqData = new Uint8Array(analyser.frequencyBinCount);
+        }
+        analyser.getByteFrequencyData(freqData);
+        const bars = this.visualizerBars.length || 1;
+        this.visualizerBars.forEach((bar, i) => {
+          const bin = Math.floor((i / bars) * freqData.length * 0.8);
+          const v = freqData[bin] / 255;
+          bar.style.height = `${Math.max(3, v * 22)}px`;
+        });
+      } else if (this.isPlaying && !this.isMuted) {
         this.visualizerBars.forEach((bar) => {
           const h = Math.floor(Math.random() * 20) + 4;
           bar.style.height = `${h}px`;
