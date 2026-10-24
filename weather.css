@@ -1,0 +1,57 @@
+/* ========================================================
+   WEATHER.CSS — THỜI TIẾT + KHÔNG KHÍ THEO GIỜ
+   ======================================================== */
+
+/* Lớp mưa / sao phía sau nội dung, trên video nền */
+#weather-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+
+/* Nhiệt độ cạnh vị trí */
+.weather-text {
+  color: #a9d8ff;
+  font-weight: 600;
+  white-space: nowrap;
+  font-size: 0.8rem;
+}
+
+/* ---------- Ban đêm: tối và lạnh hơn ---------- */
+html[data-time="night"] #bg-video {
+  filter: brightness(0.5) contrast(1.12) saturate(0.85);
+}
+html[data-time="night"] .video-overlay {
+  background:
+    radial-gradient(ellipse at center, rgba(6, 10, 26, 0.32) 0%, rgba(4, 7, 18, 0.72) 70%, rgba(2, 4, 10, 0.94) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.12) 45%, rgba(4, 6, 16, 0.9) 100%);
+}
+
+/* ---------- Buổi sáng: ấm hơn ---------- */
+html[data-time="morning"] .video-overlay {
+  background:
+    radial-gradient(ellipse at center, rgba(40, 25, 15, 0.16) 0%, rgba(20, 10, 15, 0.55) 70%, rgba(8, 3, 12, 0.88) 100%),
+    linear-gradient(to bottom, rgba(20, 10, 0, 0.25) 0%, rgba(0, 0, 0, 0.05) 45%, rgba(12, 4, 10, 0.82) 100%);
+}
+
+/* ---------- Mưa / dông: tông xanh lạnh ---------- */
+html[data-weather="rain"] #bg-video,
+html[data-weather="storm"] #bg-video {
+  filter: brightness(0.58) contrast(1.1) saturate(0.72) hue-rotate(-6deg);
+}
+html[data-weather="rain"] .video-overlay,
+html[data-weather="storm"] .video-overlay {
+  background:
+    radial-gradient(ellipse at center, rgba(10, 22, 40, 0.35) 0%, rgba(7, 14, 26, 0.72) 70%, rgba(3, 7, 14, 0.94) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.1) 45%, rgba(4, 8, 18, 0.88) 100%);
+}
+html[data-weather="rain"] .location-badge,
+html[data-weather="storm"] .location-badge {
+  border-color: rgba(129, 194, 255, 0.5);
+  color: #a9d8ff;
+}

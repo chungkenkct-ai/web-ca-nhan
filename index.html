@@ -20,6 +20,8 @@
 
     <!-- CSS Stylesheet -->
     <link rel="stylesheet" href="style.css" />
+    <!-- Thời tiết theo toạ độ + không khí theo giờ -->
+    <link rel="stylesheet" href="weather.css" />
   </head>
   <body>
     <!-- VIDEO NỀN ĐẰNG SAU -->
@@ -29,6 +31,9 @@
       </video>
       <div class="video-overlay"></div>
     </div>
+
+    <!-- LỚP MƯA / SAO TRỜI (tự bật theo giờ và thời tiết) -->
+    <canvas id="weather-canvas" aria-hidden="true"></canvas>
 
     <!-- MÀN HÌNH CHÀO BẤM ĐỂ VÀO (CLICK ANYWHERE TO ENTER) -->
     <div id="enter-overlay">
@@ -109,6 +114,7 @@
       <div class="location-badge">
         <i class="fas fa-map-marker-alt"></i>
         <span id="profile-location">Hải Dương</span>
+        <span id="weather-text" class="weather-text"></span>
       </div>
 
       <!-- Khung trạng thái phong cách Discord (Bấm để copy link Discord) -->
@@ -261,5 +267,6 @@
     <script src="config.js"></script>
     <script src="player.js"></script>
     <script src="main.js"></script>
+    <script src="weather.js"></script>
   </body>
 </html>
