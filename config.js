@@ -31,7 +31,7 @@ window.PROFILE_CONFIG = {
 
   // Trạng thái mini card (phong cách Discord / Bio card)
   statusCard: {
-    avatar: "assets/dog_avatar.png", // Ảnh đại diện Discord: Chú chó con đáng yêu đeo tai nghe AI
+    avatar: "assets/a2.png", // Ảnh đại diện Discord: Chú chó con đáng yêu đeo tai nghe AI
     username: "Bầu Trời Xanh", // Tên hiển thị trên Discord card
     badge: "🦴", // Icon huy hiệu
     statusText: "🐾 Chú chó xanh thân yêu", // Dòng trạng thái
