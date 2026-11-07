@@ -1,10 +1,10 @@
 {
   "folders": [
-	{
-		"path": "../mở trang wed cá nhan"
-	}
-],
+    {
+      "path": "../mở trang wed cá nhan",
+    },
+  ],
   "settings": {
-    "liveServer.settings.multiRootWorkspaceName": "assets"
-  }
+    "liveServer.settings.multiRootWorkspaceName": "assets",
+  },
 }
